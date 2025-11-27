@@ -35,47 +35,72 @@ function SearchBar({ onSearch }) {
   );
 }
 
-// WeatherDisplay component that displays the weather information (specifically the city name, weather icon, temperature, and short description)
+// WeatherDisplay component that displays the weather information
 function WeatherDisplay({ weather }) {
+  // array of weather details to be displayed in a grid layout
+  // label the emoji/text, value is the actual data value
+  const weatherDetails = [
+    { label: '🌡️ Feels Like', value: `${Math.round(weather.main.feels_like)}°C` },
+    { label: '📉 Low', value: `${Math.round(weather.main.temp_min)}°C` },
+    { label: '📈 High', value: `${Math.round(weather.main.temp_max)}°C` },
+    { label: '💧 Humidity', value: `${weather.main.humidity}%` },
+    { label: '🔽 Pressure', value: `${weather.main.pressure} hPa` },
+    { label: '☁️ Cloudiness', value: `${weather.clouds.all}%` },
+    { label: '💨 Wind Speed', value: `${weather.wind.speed} m/s` },
+    { label: '🧭 Wind Direction', value: `${weather.wind.deg}°` },
+    { label: '👁️ Visibility', value: `${(weather.visibility / 1000).toFixed(1)} km` },
+    { label: '📍 Coordinates', value: `${weather.coord.lat}°, ${weather.coord.lon}°` },
+    { label: '🌅 Sunrise', value: new Date(weather.sys.sunrise * 1000).toLocaleTimeString() },
+    { label: '🌇 Sunset', value: new Date(weather.sys.sunset * 1000).toLocaleTimeString() }
+  ];
+
   return (
     <div>
       {/* display the weather data in "city, country" format */}
       <h2>{weather.name}, {weather.sys.country}</h2>
       
       {/* styling to make sure the icon is shown next to the temperature instead of above/below */}
-      <div style={{ 
-        display: 'flex', 
-        alignItems: 'center',
-        justifyContent: 'center' }}>
-        {/* doing this lets the icon shown next to the weather information dynamically change depending on the weather condition */}
-        <img
-          src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
-          alt="dynamic weather icon"
-        />
-        <div>
-          {/* display the temperature in Celsius*/}
-          <h1>{Math.round(weather.main.temp)}°C</h1>
-          {/* display the short description of the weather condition */}
-          <p>{weather.weather[0].description}</p>
+      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
+          <img
+            src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            alt="dynamic weather icon"
+          />
+          <div>
+            <h1>{Math.round(weather.main.temp)}°C</h1>
+            <p>{weather.weather[0].description}</p>
+          </div>
         </div>
-      </div>
 
-      {/* display additional weather information along with their proper units */}
-      <div style={{ marginTop: '20px' }}>
-        <p><strong>Feels Like:</strong> {Math.round(weather.main.feels_like)}°C</p>
-        <p><strong>Low (Min Temperature):</strong> {Math.round(weather.main.temp_min)}°C</p>
-        <p><strong>High (Max Temperature):</strong> {Math.round(weather.main.temp_max)}°C</p>
-        <p><strong>Humidity:</strong> {weather.main.humidity}%</p>
-        <p><strong>Pressure:</strong> {weather.main.pressure} hPa</p>
-        <p><strong>Cloudiness:</strong> {weather.clouds.all}%</p>
-        <p><strong>Wind Speed:</strong> {weather.wind.speed} m/s</p>
-        <p><strong>Wind Direction:</strong> {weather.wind.deg}°</p>
-        {/* convert the visibility from meters to kilometers for better UI*/}
-        <p><strong>Visibility:</strong> {(weather.visibility / 1000).toFixed(1)} km</p>
-        <p><strong>Coordinates:</strong> Lat {weather.coord.lat}°, Lon {weather.coord.lon}°</p>
-        <p><strong>Sunrise:</strong> {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
-        <p><strong>Sunset:</strong> {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
-        <p><strong>City ID:</strong> {weather.id}</p>
+        {/* detailed weather information with grid layout */}
+        <div style={{
+          borderRadius: '20px',
+          border: '2px solid #e0e0e0',
+          padding: '20px',
+        }}>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: '10px',
+          }}>
+            {/* place each weather detail in a grid cell */}  
+            {weatherDetails.map((detail, index) => (
+              <div key={index} style={{
+                padding: '10px',
+                backgroundColor: '#bde7ff',
+                borderRadius: '10px',
+              }}>
+                {/* display the label and value within each grid cell */}
+                <div>{detail.label}</div>
+                <div>{detail.value}</div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
