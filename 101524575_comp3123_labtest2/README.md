@@ -45,6 +45,14 @@ React application displaying weather stats for an entered city using the OpenWea
 ![Search Feature](screenshots/search.png)
 *Searching for a different city*
 
+### PostMan - Toronto
+![PostMan](screenshots/postman.png)
+*Results for Toronto in PostMan*
+
+### Vercel Deployment
+![Vercel](screenshots/vercel.png)
+*Showing the project live on Vercel*
+
 
 ## Notes & Assumptions
 
