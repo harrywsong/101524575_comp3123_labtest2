@@ -1,6 +1,6 @@
 // imports
 import React, { useState, useEffect } from 'react';
-
+import './App.css';
 
 // SearchBar area component that contains the search field and search button
 function SearchBar({ onSearch }) {
@@ -61,7 +61,7 @@ function WeatherDisplay({ weather }) {
       </div>
 
       {/* display additional weather information along with their proper units */}
-      <div>
+      <div style={{ marginTop: '20px' }}>
         <p><strong>Feels Like:</strong> {Math.round(weather.main.feels_like)}°C</p>
         <p><strong>Low (Min Temperature):</strong> {Math.round(weather.main.temp_min)}°C</p>
         <p><strong>High (Max Temperature):</strong> {Math.round(weather.main.temp_max)}°C</p>
@@ -75,7 +75,6 @@ function WeatherDisplay({ weather }) {
         <p><strong>Coordinates:</strong> Lat {weather.coord.lat}°, Lon {weather.coord.lon}°</p>
         <p><strong>Sunrise:</strong> {new Date(weather.sys.sunrise * 1000).toLocaleTimeString()}</p>
         <p><strong>Sunset:</strong> {new Date(weather.sys.sunset * 1000).toLocaleTimeString()}</p>
-        <p><strong>Timezone:</strong> could not figure out how to get timezone working, sorry :/</p>
         <p><strong>City ID:</strong> {weather.id}</p>
       </div>
     </div>
@@ -104,6 +103,7 @@ function WeatherApp() {
       .catch(error => {
         // log the error in console 
         console.log('Error fetching weather:', error);
+
       });
   }
 
@@ -129,11 +129,9 @@ function WeatherApp() {
 
       {/* weather data is passed as a prop to the WeatherDisplay component for rendering */}
       {/* only renders the WeatherDisplay component if weather data is available */}
-      {weather && weather.main ? (
+      {weather && weather.main && (
         <WeatherDisplay weather={weather} />
-      ) : weather && weather.cod && weather.message ? (
-        <p style={{ color: 'red', marginTop: '20px' }}>Error {weather.cod}: {weather.message}</p>
-      ) : null}
+      )}
 
       <br></br>
       <br></br>
